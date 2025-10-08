@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐歌曲列表</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--primary-color);">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showHomePage()">
+                <i class="fas fa-music me-2"></i>音乐歌曲列表
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="#" onclick="showSearchPage()">
+                    <i class="fas fa-search me-1"></i>搜索
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <div class="container mt-4">
+        <!-- 首页内容 -->
+        <div id="homePage" class="page-content">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2><i class="fas fa-list me-2"></i>歌曲列表</h2>
+                    <p class="text-muted">浏览所有歌曲，点击查看详情</p>
+                </div>
+            </div>
+
+            <!-- 歌曲列表 -->
+            <div id="songsList" class="row">
+                <!-- 歌曲卡片将通过JavaScript动态加载 -->
+            </div>
+
+            <!-- 分页控件 -->
+            <div class="d-flex justify-content-center mt-4">
+                <nav aria-label="歌曲分页导航">
+                    <ul class="pagination" id="pagination">
+                        <!-- 分页按钮将通过JavaScript动态生成 -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- 歌曲详情页 -->
+        <div id="songDetailPage" class="page-content" style="display: none;">
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-outline-secondary mb-3" onclick="showHomePage()">
+                        <i class="fas fa-arrow-left me-1"></i>返回列表
+                    </button>
+                </div>
+            </div>
+            
+            <div id="songDetailContent">
+                <!-- 歌曲详情内容将通过JavaScript动态加载 -->
+            </div>
+        </div>
+
+        <!-- 搜索页面 -->
+        <div id="searchPage" class="page-content" style="display: none;">
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-outline-secondary mb-3" onclick="showHomePage()">
+                        <i class="fas fa-arrow-left me-1"></i>返回首页
+                    </button>
+                </div>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title text-center mb-4">
+                                <i class="fas fa-search me-2"></i>搜索歌曲
+                            </h4>
+                            
+                            <form id="searchForm">
+                                <div class="mb-3">
+                                    <label for="searchKeyword" class="form-label">搜索关键词</label>
+                                    <input type="text" class="form-control" id="searchKeyword" 
+                                           placeholder="请输入搜索关键词（20字符以内）" maxlength="20" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">搜索类型</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="searchType" 
+                                               id="searchSong" value="song" checked>
+                                        <label class="form-check-label" for="searchSong">
+                                            搜索歌曲
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="searchType" 
+                                               id="searchArtist" value="artist">
+                                        <label class="form-check-label" for="searchArtist">
+                                            搜索歌手
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-search me-2"></i>开始搜索
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 搜索结果页面 -->
+        <div id="searchResultsPage" class="page-content" style="display: none;">
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-outline-secondary mb-3" onclick="showSearchPage()">
+                        <i class="fas fa-arrow-left me-1"></i>返回搜索
+                    </button>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-12">
+                    <h4><i class="fas fa-search-results me-2"></i>搜索结果</h4>
+                    <div id="searchStats" class="text-muted">
+                        <!-- 搜索统计信息将通过JavaScript动态加载 -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="searchResults" class="row">
+                <!-- 搜索结果将通过JavaScript动态加载 -->
+            </div>
+
+            <!-- 搜索结果分页 -->
+            <div class="d-flex justify-content-center mt-4" id="searchPaginationContainer" style="display: none;">
+                <nav aria-label="搜索结果分页导航">
+                    <ul class="pagination" id="searchPagination">
+                        <!-- 分页按钮将通过JavaScript动态生成 -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载提示 -->
+    <div id="loadingSpinner" class="text-center mt-4" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">加载中...</span>
+        </div>
+        <p class="mt-2 text-muted">正在加载数据...</p>
+    </div>
+
+    <!-- 模态框：删除评论确认 -->
+    <div class="modal fade" id="deleteCommentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">确认删除</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    确定要删除这条评论吗？此操作无法撤销。
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteComment">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

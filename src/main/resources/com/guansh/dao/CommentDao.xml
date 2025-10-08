@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guansh.dao.CommentDao">
+
+    <!-- 查询某首歌的所有评论，按时间倒序 -->
+    <select id="findCommentsBySongId" parameterType="int" resultType="com.guansh.pojo.Comment">
+        SELECT id, song_id, content, created_time
+        FROM comments
+        WHERE song_id = #{songId}
+        ORDER BY created_time DESC
+    </select>
+
+    <!-- 添加评论 -->
+    <insert id="addComment" parameterType="com.guansh.pojo.Comment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO comments(song_id, content)
+        VALUES(#{song_id}, #{content})
+    </insert>
+
+    <!-- 删除评论 -->
+    <delete id="deleteComment" parameterType="int">
+        DELETE FROM comments
+        WHERE id = #{id}
+    </delete>
+</mapper>

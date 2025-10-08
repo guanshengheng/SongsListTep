@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guansh.dao.SongDao">
+
+
+    <!--    <select id="findAll" resultType="com.guansh.pojo.Song">-->
+    <!--       select id,song_url,song_title,duration,artist_name,artist_url,album_name,album_url,lyrics_path,cover_path from songs  ;-->
+    <!--    </select>-->
+
+    <select id="findSongsByPage" parameterType="map" resultType="com.guansh.pojo.Song">
+        select *
+        from songs
+        order by id
+            limit #{offset}, #{limit}
+    </select>
+
+    <select id="countSongs" resultType="int">
+        select count(*)
+        from songs
+    </select>
+
+    <select id="findSongById">
+        select *
+        from songs
+        where id = #{id}
+    </select>
+
+    <select id="findSongByTitle">
+        select *
+        from songs
+        where song_title like concat('%', #{song_title}, '%')
+    </select>
+    <select id="findSongByArtistName">
+        select *
+        from songs
+        where artist_name like concat('%', #{artist_name}, '%')
+    </select>
+    <select id="findSongByAlbumName">
+        select *
+        from songs
+        where album_name like concat('%', #{album_name}, '%')
+    </select>
+
+</mapper>
